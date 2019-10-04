@@ -1,6 +1,5 @@
 //Binary Search Tree
 #include <iostream>
-#include <stdlib.h>
 #include <string>
 #include <algorithm>
 using namespace std;
@@ -57,7 +56,11 @@ int main() {
 		cout << "7.Find Max Value in BST" << endl;
 		cout << "8.Get Number of Nodes (getSize)" << endl;
 		cout << "9.Find a Node" << endl;
-		cout << "10.Quit" << endl;
+		cout << "10.Insert Non Recursive" << endl;
+		cout << "11.Get Number of Nodes With Data v(count)" << endl;
+		cout << "12.Get Height" << endl;
+		cout << "13.Count Leaves" << endl;
+		cout << "14.Quit" << endl;
 		cout << endl <<"Enter your choice : ";
 		cin >> input;
 		switch (input) {
@@ -106,6 +109,21 @@ int main() {
 			cout << "Node* target->data: " << target->data; 
 			break;  
 		case 10:
+			cout << "Enter data to insert: " << endl;
+			cin >> num;
+			bst.insertNonRecursive(num);
+			break;
+		case 11:
+			cout << "Enter data value: " << endl;
+			cin >> num;
+			cout << "The Number of Nodes with data value " << num << "is: " << bst.count(num) << endl;
+			break;
+		case 12:
+			cout << "The height of the bst is: " << bst.getHeight() << endl;
+			break;
+		case 13:
+			cout << "The number of leaves is: " << bst.countLeaves() << endl;
+		case 14:
 			cout << "Program TERMINATED" << endl;
 			exit (0);
 			break; 
