@@ -106,7 +106,7 @@ int main() {
 			cout << "Node* target->data: " << target->data; 
 			break;  
 		case 10:
-			cout << "Program TERMINATED"; 
+			cout << "Program TERMINATED" << endl;
 			exit (0);
 			break; 
 		}
@@ -263,33 +263,74 @@ void BST::deleteNode(int v) {
 		if (v > target->data) {
 			parent = target;
 			target = target->right;
+			if (target->data == v) break;
 		}
 		else if (v < target->data) {
 			parent = target;
 			target = target->left;
+			if (target->data == v) break;
 		}
-		else {
-			if (target->left == nullptr && target->right == nullptr) { //delete leaf Node
-				if (parent->left == target) parent->left = nullptr;
-				else parent->right = nullptr;
-				return;
-			}
-			else if (target->left == nullptr || target->right == nullptr) { //delete node w/ one child
-				if (target->left == nullptr) parent->left = target->right;
-				else if (target->right == nullptr) parent->right = target->left;
-			}
-			else { // delete node that has two children
-				Node* runner = target->right;
-				while (runner->left != nullptr) runner = runner->left;
-				target->data = runner->data;
-			}
+	}
+
+	if (root->data < v) {
+		if (target->left == nullptr && target->right == nullptr) { //delete leaf Node
+			if (parent->left == target) parent->left = nullptr;
+			else parent->right = nullptr;
 			return;
+		}
+		else if (target->left == nullptr || target->right == nullptr) { //delete node w/ one child
+			if (target->left == nullptr) parent->right = target->right;
+			else if (target->right == nullptr) parent->right = target->left;
+		}
+		else { // delete node that has two children
+			Node* runner = target->left;
+			parent = target;
+			if (runner->right != nullptr) {
+				while (runner->right != nullptr) {
+					parent = runner;
+					runner = runner->right;
+				}
+				target->data = runner->data;
+				parent->right = nullptr;
+			}
+			else if (runner->right == nullptr) {
+				target->data = runner->data;
+				parent->left = nullptr;
+			}
+		}
+	}
+	else if (root->data > v) {
+		if (target->left == nullptr && target->right == nullptr) { //delete leaf Node
+			if (parent->left == target) parent->left = nullptr;
+			else parent->right = nullptr;
+			return;
+		}
+		else if (target->left == nullptr || target->right == nullptr) { //delete node w/ one child
+			if (target->left == nullptr) parent->left = target->right;
+			else if (target->right == nullptr) parent->left = target->left;
+		}
+		else { // delete node that has two children
+			Node* runner = target->right;
+			parent = target;
+			if (runner->right != nullptr) {
+				while (runner->right != nullptr) {
+					parent = runner;
+					runner = runner->right;
+				}
+				target->data = runner->data;
+				parent->right = nullptr;
+			}
+			else if (runner->left == nullptr) {
+				target->data = runner->data;
+				parent->right = nullptr;
+			}
 		}
 	}
 }
 
 Node* BST::find(int v) {
 	Node* r = root;
+	Node* errorPtr = nullptr;
 	while (r != nullptr) {
 		if (r->data == v)
 			return r;
@@ -299,7 +340,8 @@ Node* BST::find(int v) {
 			r = r->left;
 	}
 	cout << v << " is not in this BST!" << endl;
-	return nullptr;
+	errorPtr->data = INT_MAX;
+	return errorPtr; 
 }
 
 void BST::load(int howMany, int minVal, int maxVal) {
