@@ -1,7 +1,11 @@
-//Binary Search Tree
+// 280
+// BST_Development
+// Gunnar Marquardt and Thomas Evon
+
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <time.h>
 using namespace std;
 
 struct Node {
@@ -20,7 +24,7 @@ private:
 	int count(int, Node*); // count helper
 	int countLeaves(Node*); // countLeaves helper
 	int getHeight(Node*); // getHeight helper
-	bool isLeaf(Node*); 
+	bool isLeaf(Node*);
 public:
 	BST();
 	void insert(int);
@@ -28,10 +32,10 @@ public:
 	int getSize();
 	int maxValue();
 	Node* find(int);
-	void deleteNode(int); 
+	void deleteNode(int);
 	void load(int, int, int);
-	void displayPreOrder(); 
-	void display(); 
+	void displayPreOrder();
+	void display();
 	void insertNonRecursive(int);
 	int count(int);
 	int countLeaves();
@@ -61,7 +65,7 @@ int main() {
 		cout << "12.Get Height" << endl;
 		cout << "13.Count Leaves" << endl;
 		cout << "14.Quit" << endl;
-		cout << endl <<"Enter your choice : ";
+		cout << endl << "Enter your choice : ";
 		cin >> input;
 		switch (input) {
 		case 1:
@@ -77,7 +81,7 @@ int main() {
 		case 3:
 			int howMany, min, max;
 			cout << "Enter howMany, min, and max: ";
-			cin >> howMany >> min >> max; 
+			cin >> howMany >> min >> max;
 			bst.load(howMany, min, max);
 			break;
 		case 4:
@@ -86,8 +90,8 @@ int main() {
 			bst.displayPreOrder();
 			break;
 		case 5:
-			cout << endl << "Display pretty tree:" << endl 
-				 << "--------------------" << endl;
+			cout << endl << "Display pretty tree:" << endl
+				<< "--------------------" << endl;
 			bst.display();
 			break;
 		case 6:
@@ -96,18 +100,18 @@ int main() {
 			bst.displayInOrder();
 			break;
 		case 7:
-			cout << "The max value in the BST is: " << bst.maxValue(); 
-			break; 
-		case 8: 
+			cout << "The max value in the BST is: " << bst.maxValue();
+			break;
+		case 8:
 			cout << "The number of nodes are: " << bst.getSize();
 			break;
 		case 9:
-			Node* target;
+			Node * target;
 			cout << "Enter the int of the node you want to find: ";
 			cin >> num;
 			target = bst.find(num);
-			cout << "Node* target->data: " << target->data; 
-			break;  
+			cout << "Node* target->data: " << target->data;
+			break;
 		case 10:
 			cout << "Enter data to insert: " << endl;
 			cin >> num;
@@ -125,8 +129,8 @@ int main() {
 			cout << "The number of leaves is: " << bst.countLeaves() << endl;
 		case 14:
 			cout << "Program TERMINATED" << endl;
-			exit (0);
-			break; 
+			exit(0);
+			break;
 		}
 
 	}
@@ -258,7 +262,7 @@ int BST::getSize(Node* r) {
 
 int BST::getSize() {
 	return getSize(root);
-} 
+}
 
 int BST::maxValue() {
 	Node* r = root;
@@ -278,7 +282,7 @@ void BST::deleteNode(int v) {
 
 	if (root->data == v) {
 		if (root->left == nullptr && root->right == nullptr) { //delete leaf root
-			root = nullptr; 
+			root = nullptr;
 			return;
 		}
 		else if (root->left == nullptr || root->right == nullptr) { //delete root w/ one child
@@ -287,8 +291,8 @@ void BST::deleteNode(int v) {
 				root = target->right;
 			}
 			else if (root->right == nullptr) {
-				Node* runner = root->left; 
-				root = runner; 
+				Node* runner = root->left;
+				root = runner;
 			}
 		}
 		else { // delete root that has two children
@@ -300,8 +304,8 @@ void BST::deleteNode(int v) {
 					runner = runner->right;
 				}
 				root->data = runner->data;
-				root->left = parent; 
-				parent->right = nullptr; 
+				root->left = parent;
+				parent->right = nullptr;
 			}
 			else if (runner->right == nullptr) {
 				root->data = runner->data;
@@ -309,7 +313,7 @@ void BST::deleteNode(int v) {
 				root->right = parent->right;
 			}
 		}
-		return; 
+		return;
 	}
 
 	// find node
@@ -395,23 +399,17 @@ Node* BST::find(int v) {
 	}
 	cout << v << " is not in this BST!" << endl;
 	errorPtr->data = INT_MAX;
-	return errorPtr; 
+	return errorPtr;
 }
 
 void BST::load(int howMany, int minVal, int maxVal) {
-	if (root == nullptr) {
-		int newRoot = (minVal + maxVal) / 2;
-		insert(newRoot);
-	}
-	insert(minVal);
-	insert(maxVal);
-	howMany--;
-	howMany--;
-	if (howMany != 0) {
-		while (howMany != 0) {
-			insert(((rand() % (maxVal - minVal + 1)) + minVal));
-			howMany--;
+	srand(time(NULL));
+	for (howMany; howMany != 0; howMany--) {
+		if (root == nullptr) {
+			int newRoot = (minVal + maxVal) / 2;
+			insert(newRoot);
 		}
+		else insert(((rand() % (maxVal - minVal + 1)) + minVal));
 	}
 }
 
