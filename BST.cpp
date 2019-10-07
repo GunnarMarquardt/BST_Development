@@ -112,7 +112,8 @@ int main() {
 			cout << "Enter the int of the node you want to find: ";
 			cin >> num;
 			target = bst.find(num);
-			cout << "Node* target->data: " << target->data;
+			if (target != nullptr) cout << "Node* target->data: " << target->data << endl;
+			else cout << "ERROR, node doesn't exist!" << endl;
 			break;
 		case 10:
 			cout << "Enter data to insert: ";
@@ -289,6 +290,11 @@ void BST::deleteNode(int v) {
 	target = find(v);
 	parent = findParent(v);
 
+	if (target == nullptr) {
+		cout << "Can't delete something that is not there!" << endl;
+		return;
+	}
+
 	if (isLeaf(target)) { // if isLeaf
 		if (parent == nullptr) root = nullptr;
 		else {
@@ -327,7 +333,6 @@ void BST::deleteNode(int v) {
 
 Node* BST::find(int v) {
 	Node* r = root;
-	Node* errorPtr = nullptr;
 	while (r != nullptr) {
 		if (r->data == v)
 			return r;
@@ -336,9 +341,7 @@ Node* BST::find(int v) {
 		else if (v < r->data)
 			r = r->left;
 	}
-	cout << v << " is not in this BST!" << endl;
-	errorPtr->data = INT_MAX;
-	return errorPtr;
+	return r;
 }
 
 Node* BST::findParent(int v) {
