@@ -249,9 +249,6 @@ int BST::getHeight(Node* n) {
 	if (n == nullptr) {
 		return 0;
 	}
-	else if (isLeaf(n)) {
-		return 1;
-	}
 	else {
 		return max(getHeight(n->left), getHeight(n->right)) + 1;
 	}
